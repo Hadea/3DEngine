@@ -3,13 +3,16 @@
 
 
 
+
 Core::Mesh::Mesh(std::string pFileName)
 {
+    OutputDebugString("loading Mesh");
 	//TODO: Hausaufgabe :D
 }
 
 Core::Mesh::Mesh(PrimitiveType pPrimitiveType)
 {
+    OutputDebugString("loading primitive mehs");
 	switch (pPrimitiveType)
 	{
     case Core::PrimitiveType::Plane:

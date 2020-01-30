@@ -12,7 +12,7 @@ namespace Core
 	public:
 		void Initialize(HWND pWindowHandler);
 
-		static Graphics & GetInstance();
+		static Graphics * GetInstance();
 
 		~Graphics();
 
@@ -23,6 +23,7 @@ namespace Core
 		D3D_FEATURE_LEVEL SelectedFeatureLevel = {};
 
 	private:
+		static Graphics* mInstance;
 		Graphics() {};
 		Graphics(const Graphics&);
 		Graphics& operator = (const Graphics &);

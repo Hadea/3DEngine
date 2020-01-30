@@ -1,8 +1,10 @@
 #include "Graphics.h"
 
+Core::Graphics* Core::Graphics::mInstance = nullptr;
 
 void Core::Graphics::Initialize(HWND pWindowHandler)
 {
+	OutputDebugString("preparing graphics");
 	DXGI_SWAP_CHAIN_DESC mSCD = { 0 };
 	mSCD.BufferCount = 1; // Anzahl der Buffer 0= Direkt auf GPU, 1 = DoubleBuffering, ...
 	mSCD.BufferDesc.Width = 0;  // 0 = Max Fenstergrösse, ansonsten Auflösung
@@ -39,14 +41,19 @@ void Core::Graphics::Initialize(HWND pWindowHandler)
 }
 
 
-Core::Graphics& Core::Graphics::GetInstance()
+Core::Graphics* Core::Graphics::GetInstance()
 {
-	static Graphics _instance;
-	return _instance;
+	if (mInstance == nullptr)
+	{
+		OutputDebugString("creating graphics");
+		mInstance = new Graphics();
+	}
+	return mInstance;
 }
 
 Core::Graphics::~Graphics()
 {
+	OutputDebugString("unloading graphics");
 	if (DeviceContext != nullptr) DeviceContext->Release();
 	if (Device != nullptr) Device->Release();
 	if (SwapChain != nullptr) SwapChain->Release();

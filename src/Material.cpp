@@ -2,6 +2,7 @@
 
 Core::Material::Material(std::string pFileName)
 {
+	OutputDebugString("Loading Material");
 	std::ifstream ShaderFile;
 	ShaderFile.open(pFileName, std::ios::in ); // Offnet eine datei zum lesen (funktioniert wie eine Casette)
 	if (ShaderFile)
@@ -34,12 +35,12 @@ Core::Material::Material(std::string pFileName)
 
 		delete[] fileBuffer; // kopie der datei im RAM wird nicht mehr benötigt
 		
-		Graphics& gp = Graphics::GetInstance();
+		Graphics* gp = Graphics::GetInstance();
 		
 
-		if (FAILED(gp.Device->CreatePixelShader(mShaderDataPS->GetBufferPointer(),mShaderDataPS->GetBufferSize(),0,&ShaderPixel)))
+		if (FAILED(gp->Device->CreatePixelShader(mShaderDataPS->GetBufferPointer(),mShaderDataPS->GetBufferSize(),0,&ShaderPixel)))
 			std::cerr << "Pixelshader kann nicht erstellt werden :(";
-		if (FAILED(gp.Device->CreateVertexShader(mShaderDataVS->GetBufferPointer(), mShaderDataVS->GetBufferSize(), 0, &ShaderVertex)))
+		if (FAILED(gp->Device->CreateVertexShader(mShaderDataVS->GetBufferPointer(), mShaderDataVS->GetBufferSize(), 0, &ShaderVertex)))
 			std::cerr << "Vertexshader kann nicht erstellt werden :(";
 
 		ShaderInputDescription[0].SemanticName = "POSITION";
@@ -50,7 +51,7 @@ Core::Material::Material(std::string pFileName)
 		ShaderInputDescription[1].Format = DXGI_FORMAT_R32G32B32_FLOAT;
 		ShaderInputDescription[1].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
 		
-		if(FAILED(gp.Device->CreateInputLayout(ShaderInputDescription,ARRAYSIZE(ShaderInputDescription),mShaderDataVS->GetBufferPointer(),mShaderDataVS->GetBufferSize(), &ShaderInputLayout)))
+		if(FAILED(gp->Device->CreateInputLayout(ShaderInputDescription,ARRAYSIZE(ShaderInputDescription),mShaderDataVS->GetBufferPointer(),mShaderDataVS->GetBufferSize(), &ShaderInputLayout)))
 			std::cerr << "Input Layout konnte nicht erstellt werden :(";
 	}
 	else
@@ -61,11 +62,11 @@ Core::Material::Material(std::string pFileName)
 
 Core::Material::~Material()
 {
+	OutputDebugString("unloading material");
 	if (ShaderPixel != nullptr) ShaderPixel->Release();
 	if (ShaderVertex != nullptr)  ShaderVertex->Release();
 	if (mShaderDataPS != nullptr)  mShaderDataPS->Release();
 	if (mShaderError != nullptr)   mShaderError->Release();
 	if (mShaderDataVS != nullptr)  mShaderDataVS->Release();
 	if (ShaderInputLayout != nullptr)  ShaderInputLayout->Release();
-
 }

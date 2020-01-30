@@ -17,7 +17,7 @@ int CALLBACK WinMain(
 
 	OutputDebugString("HalloWelt");
 	
-	Core::Graphics::GetInstance().Initialize(mWindow.WindowHandle);
+	Core::Graphics::GetInstance()->Initialize(mWindow.WindowHandle);
 	
 	MSG mMsg = { 0 };
 
@@ -36,11 +36,11 @@ int CALLBACK WinMain(
 	SceneList.back()->Load(); // Szene wird initialisiert
 	
 	ID3D11Texture2D* backBuffer;
-	Core::Graphics::GetInstance().SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&backBuffer);
+	Core::Graphics::GetInstance()->SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&backBuffer);
 
 	ID3D11RenderTargetView* renderTargetView;
-	Core::Graphics::GetInstance().Device->CreateRenderTargetView(backBuffer, NULL, &renderTargetView);
-	Core::Graphics::GetInstance().DeviceContext->OMSetRenderTargets(1, &renderTargetView, NULL);
+	Core::Graphics::GetInstance()->Device->CreateRenderTargetView(backBuffer, NULL, &renderTargetView);
+	Core::Graphics::GetInstance()->DeviceContext->OMSetRenderTargets(1, &renderTargetView, NULL);
 
 	D3D11_VIEWPORT viewport{};
 	viewport.Width= 800;
@@ -49,7 +49,7 @@ int CALLBACK WinMain(
 	viewport.MaxDepth = 1.0f;
 	viewport.TopLeftX = 0;
 	viewport.TopLeftY = 0;
-	Core::Graphics::GetInstance().DeviceContext->RSSetViewports(1, &viewport);
+	Core::Graphics::GetInstance()->DeviceContext->RSSetViewports(1, &viewport);
 
 	bool colorswitch = false;
 	float clearColorA[4] = { 0.5f,0.5f,0.4f,1.0f };
@@ -62,10 +62,10 @@ int CALLBACK WinMain(
 		colorswitch = !colorswitch;
 
 
-		Core::Graphics::GetInstance().DeviceContext->ClearRenderTargetView(renderTargetView, (colorswitch? clearColorA: clearColorB));		//TODO: Prepare new frame with clearcolor
+		Core::Graphics::GetInstance()->DeviceContext->ClearRenderTargetView(renderTargetView, (colorswitch? clearColorA: clearColorB));		//TODO: Prepare new frame with clearcolor
 
 		SceneList.back()->Draw(); // Zeichnet die oberste Szene.
-		Core::Graphics::GetInstance().SwapChain->Present(4, 0);
+		Core::Graphics::GetInstance()->SwapChain->Present(4, 0);
 
 
 		if (PeekMessage(

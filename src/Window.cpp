@@ -2,6 +2,7 @@
 
 Core::Window::Window(uint16_t pResolutionX, uint16_t pResolutionY, HINSTANCE pInstance)
 {
+	OutputDebugString("creating window");
 	const auto mClassName = "MeinFenster";
 
 	WNDCLASSEX mWindowClass = { 0 };
@@ -37,5 +38,6 @@ Core::Window::Window(uint16_t pResolutionX, uint16_t pResolutionY, HINSTANCE pIn
 Core::Window::~Window()
 {
 	DestroyWindow(WindowHandle);
+	OutputDebugString("destroying window");
 
 }

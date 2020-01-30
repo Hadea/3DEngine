@@ -18,4 +18,7 @@ public:
 private:
 	Core::Material* mGradientMaterial = nullptr;
 	Core::Mesh* mPlane = nullptr;
+	D3D11_BUFFER_DESC bufferDescription{};
+	D3D11_SUBRESOURCE_DATA bufferSubresource{};
+	ID3D11Buffer* buffer = nullptr;
 };
