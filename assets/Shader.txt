@@ -1,0 +1,29 @@
+// Vertex Shader
+struct VS_INPUT
+{
+float4 aPosition: POSITION;
+float4 aColor:COLOR;
+};
+
+struct PS_INPUT
+{
+float4 aPosition :SV_POSITION;
+float4 aColor :COLOR;
+};
+
+
+PS_INPUT VS_Main(VS_INPUT input) 
+{
+	PS_INPUT output;
+	output.aPosition = input.aPosition;
+	output.aPosition.w = 1.0; 
+	output.aColor = input.aColor;
+
+	return output; 
+}
+
+// Pixel Shader
+float4 PS_Main(PS_INPUT input):SV_TARGET
+{
+	return input.aColor;
+}
